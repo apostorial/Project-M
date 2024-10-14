@@ -1,5 +1,6 @@
 package com.apostorial.projectm.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Document @Data @NoArgsConstructor @AllArgsConstructor
 public class User implements UserDetails {
@@ -26,6 +28,13 @@ public class User implements UserDetails {
     private LocalDateTime lastLogin;
     @DBRef
     private List<Studio> studios;
+
+    @JsonProperty("studios")
+    public List<String> getStudiosForSerialization() {
+        return studios.stream()
+                .map(Studio::getId)
+                .collect(Collectors.toList());
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

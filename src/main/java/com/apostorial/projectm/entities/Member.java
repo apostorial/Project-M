@@ -1,5 +1,6 @@
 package com.apostorial.projectm.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,4 +19,9 @@ public class Member {
     private Studio studio;
     private int percentage;
     private BigDecimal earnings;
+
+    @JsonProperty("studio")
+    public String getStudioForSerialization() {
+        return studio.getId();
+    }
 }
